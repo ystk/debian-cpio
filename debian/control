@@ -1,10 +1,12 @@
 Source: cpio
 Section: utils
 Priority: important
-Maintainer: Clint Adams <schizo@debian.org>
+Maintainer: Ruben Molina <rmolina@udea.edu.co>
+Uploaders: Anibal Monsalve Salazar <anibal@debian.org>
 Build-Depends: texinfo, gettext
 Build-Depends-Indep: mingw32
-Standards-Version: 3.8.4
+Standards-Version: 3.9.3
+Homepage: http://www.gnu.org/software/cpio/
 Vcs-Git: git://git.debian.org/git/private/schizo/cpio
 Vcs-Browser: http://git.debian.org/?p=private/schizo/cpio/.git
 
@@ -13,6 +15,7 @@ Architecture: any
 Depends: ${shlibs:Depends}, dpkg (>= 1.15.4) | install-info
 Replaces: cpio-mt
 Conflicts: mt-st (<< 0.6), cpio-mt
+Suggests: libarchive1
 Description: GNU cpio -- a program to manage archives of files
  GNU cpio is a tool for creating and extracting archives, or copying
  files from one place to another.  It handles a number of cpio formats

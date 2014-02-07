@@ -1,3 +1,56 @@
+cpio (2.11+dfsg-0.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Remove non DFSG-compliant doc/cpio.info and doc/cpio.texi from source.
+    Closes: #695717
+  * Do not build nor ship cpio.info because of the above.
+
+ -- David Prévot <taffit@debian.org>  Sat, 29 Dec 2012 22:02:30 -0400
+
+cpio (2.11-8) unstable; urgency=low
+
+  * Enable hardened build flags
+    Patch by Moritz Muehlenhoff
+    Closes: #654522
+  * Cross-building issues 
+    - Fix invalid redefinition of stat() during cross-building cpio
+      Patch by Steve McIntyre
+      Add 627444-invalid-redefinition-of-stat.patch
+    - Use the strip that's provided by the cross-binutils
+      Patch by Steve Langasek
+    Closes: #627444
+  * Standards version is 3.9.3
+  * Fix debian-rules-missing-recommended-target
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Tue, 12 Jun 2012 20:55:53 +1000
+
+cpio (2.11-7) unstable; urgency=low
+
+  * New mantainer. Closes: #609990.
+  * Add a 'Reporting Bugs' section to manpages. Closes: #218086.
+  * Add a 'See Also' section to manpages mentioning cpio(5), and
+    Add a 'Suggests: libarchive1' for cpio(5). Closes: #588020.
+
+ -- Ruben Molina <rmolina@udea.edu.co>  Thu, 10 Feb 2011 23:16:52 -0500
+
+cpio (2.11-6) unstable; urgency=low
+
+  * New mantainer: adopt the package.
+    closes: 604790
+  * debian/copyright: change link to GPL3 file
+  * debian/control: add homepage field
+  * Fix manpages section
+  * Minor changes in postinst and prerm scripts
+
+ -- Monica Ramirez Arceda <monica@probeta.net>  Thu, 02 Dec 2010 07:43:11 +0100
+
+cpio (2.11-5) unstable; urgency=low
+
+  * Bump to Standards-Version 3.9.1.
+  * Orphan the package.
+
+ -- Clint Adams <clint@gnu.org>  Sun, 14 Nov 2010 00:50:05 -0500
+
 cpio (2.11-4) unstable; urgency=low
 
   * Apply patch from Didier Raboud to fix win32 output again.
