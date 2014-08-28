@@ -1,3 +1,6 @@
-version=2
+version=3
+opts=dversionmangle=s/(\d)[\+\.\-~](?:dfsg|debian|ds|repack)\.?\d*$/$1/ \
+http://www.gnu.org/software/cpio/ \
+(?:.*/|.*=|)cpio[\-\._]?(\d\S*)\.(?:tar\.xz|txz|tar\.bz2|tbz2|tar\.gz|tgz)(?:/\S*)?
+# Bart Martens <bartm@debian.org>  Sun, 10 Mar 2013 22:10:39 +0000
 
-ftp://ftp.gnu.org/gnu/cpio/cpio-(.*)\.tar\.bz2

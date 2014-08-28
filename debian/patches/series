@@ -7,3 +7,5 @@ fix.win32.out-pass.mode.579533.patch
 588020-manpages-see-also.patch
 627444-invalid-redefinition-of-stat.patch
 695717-no-cpio.info.patch
+glibc-2.16-gnulib-nogets.patch
+fix.win32.undef.stat.patch

@@ -1,3 +1,41 @@
+cpio (2.11+dfsg-2) unstable; urgency=medium
+
+  [ Stephen Kitt ]
+  * Build using mingw-w64 instead of mingw32. Closes: #623402.
+  * Clean up autom4te.cache and config.guess/config.sub to allow building
+    twice in a row.
+
+  [ Anibal Monsalve Salazar ]
+  * Standards Version is 3.9.5
+  * Commented out Vcs-Git and Vcs-Browser in debian/control
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Thu, 27 Mar 2014 01:49:54 +0000
+
+cpio (2.11+dfsg-1) unstable; urgency=low
+
+  * Standards Version is 3.9.4
+  * Remove reference to texinfo documntation in cpio man page
+    Update debian/patches/695717-no-cpio.info.patch
+    Closes: #695717
+  * Build depends on autotools-dev 
+    Autoconf update for arm64 building
+    Drop debian/patches/autoconfupdate.patch
+    Closes: #689612
+  * Update debian/watch
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Sat, 01 Jun 2013 08:54:41 +1000
+
+cpio (2.11+dfsg-0.2) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Make cpio build with glibc 2.16 and newer, closes: #701389, #693440
+  * Make cpio multiarch ready before the bug gets one year old: closes: #678385 
+  * remove dependency on install-info/dpkg since info file was dropped in
+    #695717
+  * Update config.guess and config.sub for aarch64 bootstrapping
+
+ -- Riku Voipio <riku.voipio@linaro.org>  Thu, 23 May 2013 09:46:11 +0300
+
 cpio (2.11+dfsg-0.1) unstable; urgency=low
 
   * Non-maintainer upload.
@@ -36,7 +74,7 @@ cpio (2.11-7) unstable; urgency=low
 cpio (2.11-6) unstable; urgency=low
 
   * New mantainer: adopt the package.
-    closes: 604790
+    closes: #604790
   * debian/copyright: change link to GPL3 file
   * debian/control: add homepage field
   * Fix manpages section
