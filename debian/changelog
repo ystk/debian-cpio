@@ -1,3 +1,12 @@
+cpio (2.11-4+deb6u1) squeeze-lts; urgency=medium
+
+  * Non-maintainer security upload by the Debian LTS team.
+  * Include upstream patches for CVE-2014-9112. Fixes a buffer
+    overrun and multiple NULL pointer dereference.
+    Closes: #772793
+
+ -- Raphaël Hertzog <hertzog@debian.org>  Mon, 15 Dec 2014 12:07:14 +0100
+
 cpio (2.11-4) unstable; urgency=low
 
   * Apply patch from Didier Raboud to fix win32 output again.
