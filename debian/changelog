@@ -1,3 +1,35 @@
+cpio (2.11+dfsg-4.1) unstable; urgency=medium
+
+  * Apply patch by Vitezslav Cizek of SuSE to fix CVE-2015-1197.
+    Upstream is dormant or no longer existing. To restore the old
+    behaviour use --extract-over-symlinks (Closes: #774669)
+    This issue has been discovered by Alexander Cherepanov.
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Thu, 05 Mar 2015 11:44:25 +0100
+
+cpio (2.11+dfsg-4) unstable; urgency=high
+
+  [ Michael Gilbert <mgilbert@debian.org> ]
+  * Fix CVE-2014-9112: null pointer dereference issues.
+    Add the following upstream patches:
+    fd262d11.patch
+    f6a8a2cb.patch
+    Closes: #772793.
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Mon, 22 Dec 2014 11:42:11 +0000
+
+cpio (2.11+dfsg-3) experimental; urgency=medium
+
+  * Use default compression source options
+  * Fix CVE-2014-9112: out of bounds write and insufficient range checking.
+    Add the following upstream patches:
+    746f3ff6.patch
+    54d1c42a.patch
+    58df4f1b.patch
+    Closes: #772793.
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Fri, 12 Dec 2014 10:41:11 +0000
+
 cpio (2.11+dfsg-2) unstable; urgency=medium
 
   [ Stephen Kitt ]
