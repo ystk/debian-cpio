@@ -17,3 +17,4 @@ fix.win32.undef.stat.patch
 fd262d11.patch
 f6a8a2cb.patch
 CVE-2015-1197.patch
+CVE-2016-2037.patch

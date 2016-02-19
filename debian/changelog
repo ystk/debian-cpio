@@ -1,3 +1,10 @@
+cpio (2.11+dfsg-4.1+deb8u1) jessie-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * CVE-2016-2037: 1-byte out-of-bounds write (Closes: #812401)
+
+ -- Salvatore Bonaccorso <carnil@debian.org>  Sun, 14 Feb 2016 13:42:19 +0100
+
 cpio (2.11+dfsg-4.1) unstable; urgency=medium
 
   * Apply patch by Vitezslav Cizek of SuSE to fix CVE-2015-1197.
