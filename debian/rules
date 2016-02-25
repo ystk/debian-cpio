@@ -36,7 +36,7 @@ obj/Makefile:
 	       --bindir=/bin \
 	       --libexecdir=/usr/sbin
 
-	touch tests/testsuite tests/package.m4
+	#touch tests/testsuite tests/package.m4
 
 obj-win32/Makefile:
 	$(checkdir)
@@ -46,7 +46,7 @@ obj-win32/Makefile:
 build:	obj/Makefile
 	$(checkdir)
 	$(MAKE) -C obj
-	touch tests/testsuite.at tests/testsuite tests/package.m4
+	#touch tests/testsuite.at tests/testsuite tests/package.m4
 ifeq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
 	$(MAKE) -C obj check
 endif

@@ -1,3 +1,11 @@
+cpio (2.11-4+deb6u2) squeeze-lts; urgency=medium
+
+  * Non-maintainer upload by the Squeeze LTS Team.
+  * Fix CVE-2016-2037: out-of-bounds write. Closes: #812401.
+  * Update debian/patches/update-testsuite.
+
+ -- Santiago Ruano Rincón <santiagorr@riseup.net>  Fri, 12 Feb 2016 18:32:40 +0100
+
 cpio (2.11-4+deb6u1) squeeze-lts; urgency=medium
 
   * Non-maintainer security upload by the Debian LTS team.

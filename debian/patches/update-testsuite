@@ -15,7 +15,9 @@ Description: Regenerate the testsuite script
 Author: Raphaël Hertzog <hertzog@debian.org>
 Origin: vendor
 Forwarded: not-needed
-Last-Update: 2014-12-15
+Last-Update: 2016-02-12
+Updated-by: Santiago R.R. <santiagorr@riseup.net>
+
 ---
 This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/tests/testsuite
@@ -45,7 +47,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    emulate sh
    NULLCMD=:
    # Pre-4.2 versions of Zsh do word splitting on ${1+"$@"}, which
-@@ -19,23 +19,15 @@ if test -n "${ZSH_VERSION+set}" && (emul
+@@ -19,23 +19,15 @@ if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then
    alias -g '${1+"$@"}'='"$@"'
    setopt NO_GLOB_SUBST
  else
@@ -98,7 +100,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
        *"$as_nl"*)
  	expr "X$arg" : "X\\(.*\\)$as_nl";
  	arg=`expr "X$arg" : ".*$as_nl\\(.*\\)"`;;
-@@ -77,13 +75,6 @@ if test "${PATH_SEPARATOR+set}" != set;
+@@ -77,13 +75,6 @@ if test "${PATH_SEPARATOR+set}" != set; then
    }
  fi
  
@@ -251,13 +253,19 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -  exitcode=1
 -  echo as_func_failure succeeded.
 -fi
--
++as_fn_success || { exitcode=1; echo as_fn_success failed.; }
++as_fn_failure && { exitcode=1; echo as_fn_failure succeeded.; }
++as_fn_ret_success || { exitcode=1; echo as_fn_ret_success failed.; }
++as_fn_ret_failure && { exitcode=1; echo as_fn_ret_failure succeeded.; }
++if ( set x; as_fn_ret_success y && test x = \"\$1\" ); then :
+ 
 -if as_func_ret_success; then
 -  :
--else
+ else
 -  exitcode=1
 -  echo as_func_ret_success failed.
--fi
++  exitcode=1; echo positional parameters were not saved.
+ fi
 -
 -if as_func_ret_failure; then
 -  exitcode=1
@@ -266,15 +274,6 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -
 -if ( set x; as_func_ret_success y && test x = \"\$1\" ); then
 -  :
-+as_fn_success || { exitcode=1; echo as_fn_success failed.; }
-+as_fn_failure && { exitcode=1; echo as_fn_failure succeeded.; }
-+as_fn_ret_success || { exitcode=1; echo as_fn_ret_success failed.; }
-+as_fn_ret_failure && { exitcode=1; echo as_fn_ret_failure succeeded.; }
-+if ( set x; as_fn_ret_success y && test x = \"\$1\" ); then :
-+
-+else
-+  exitcode=1; echo positional parameters were not saved.
-+fi
 +test x\$exitcode = x0 || exit 1"
 +  as_suggested="  as_lineno_1=";as_suggested=$as_suggested$LINENO;as_suggested=$as_suggested" as_lineno_1a=\$LINENO
 +  as_lineno_2=";as_suggested=$as_suggested$LINENO;as_suggested=$as_suggested" as_lineno_2a=\$LINENO
@@ -414,6 +413,13 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -if as_func_ret_failure; then
 -  exitcode=1
 -  echo as_func_ret_failure succeeded.
+-fi
+-
+-if ( set x; as_func_ret_success y && test x = "$1" ); then
+-  :
+-else
+-  exitcode=1
+-  echo positional parameters were not saved.
 +      if test "x$CONFIG_SHELL" != x; then :
 +  # We cannot yet assume a decent shell, so we have to provide a
 +	# neutralization value for shells without unset; and this also
@@ -425,11 +431,17 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +	exec "$CONFIG_SHELL" "$as_myself" ${1+"$@"}
  fi
  
--if ( set x; as_func_ret_success y && test x = "$1" ); then
--  :
--else
--  exitcode=1
--  echo positional parameters were not saved.
+-test $exitcode = 0) || { (exit 1); exit 1; }
+-
+-(
+-  as_lineno_1=$LINENO
+-  as_lineno_2=$LINENO
+-  test "x$as_lineno_1" != "x$as_lineno_2" &&
+-  test "x`expr $as_lineno_1 + 1`" = "x$as_lineno_2") || { (exit 1); exit 1; }
+-
+-_ASEOF
+-}; then
+-  break
 +    if test x$as_have_required = xno; then :
 +  $as_echo "$0: This script requires a shell more modern than all"
 +  $as_echo "$0: the shells that I found on your system."
@@ -445,19 +457,16 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +  exit 1
  fi
 -
--test $exitcode = 0) || { (exit 1); exit 1; }
--
--(
--  as_lineno_1=$LINENO
--  as_lineno_2=$LINENO
--  test "x$as_lineno_1" != "x$as_lineno_2" &&
--  test "x`expr $as_lineno_1 + 1`" = "x$as_lineno_2") || { (exit 1); exit 1; }
--
--_ASEOF
--}; then
--  break
  fi
 -
+-      done
+-
+-      if test "x$CONFIG_SHELL" != x; then
+-  for as_var in BASH_ENV ENV
+-	do ($as_unset $as_var) >/dev/null 2>&1 && $as_unset $as_var
+-	done
+-	export CONFIG_SHELL
+-	exec "$CONFIG_SHELL" "$as_myself" ${1+"$@"}
  fi
 +SHELL=${CONFIG_SHELL-/bin/sh}
 +export SHELL
@@ -465,7 +474,6 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +CLICOLOR_FORCE= GREP_OPTIONS=
 +unset CLICOLOR_FORCE GREP_OPTIONS
  
--      done
 +## --------------------- ##
 +## M4sh Shell Functions. ##
 +## --------------------- ##
@@ -478,13 +486,14 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +}
 +as_unset=as_fn_unset
  
--      if test "x$CONFIG_SHELL" != x; then
--  for as_var in BASH_ENV ENV
--	do ($as_unset $as_var) >/dev/null 2>&1 && $as_unset $as_var
--	done
--	export CONFIG_SHELL
--	exec "$CONFIG_SHELL" "$as_myself" ${1+"$@"}
+-    if test $as_have_required = no; then
+-  echo This script requires a shell more modern than all the
+-      echo shells that I found on your system.  Please install a
+-      echo modern shell, or manually run the script under such a
+-      echo shell if you do have one.
+-      { (exit 1); exit 1; }
 -fi
+-
 +# as_fn_set_status STATUS
 +# -----------------------
 +# Set $? to STATUS, without forking.
@@ -493,6 +502,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +  return $1
 +} # as_fn_set_status
  
+-fi
 +# as_fn_exit STATUS
 +# -----------------
 +# Exit the shell with STATUS, even in a "trap 0" or "set -e" context.
@@ -503,12 +513,6 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +  exit $1
 +} # as_fn_exit
  
--    if test $as_have_required = no; then
--  echo This script requires a shell more modern than all the
--      echo shells that I found on your system.  Please install a
--      echo modern shell, or manually run the script under such a
--      echo shell if you do have one.
--      { (exit 1); exit 1; }
 -fi
 +# as_fn_mkdir_p
 +# -------------
@@ -554,10 +558,8 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +    done
 +    test -z "$as_dirs" || eval "mkdir $as_dirs"
 +  } || test -d "$as_dir" || as_fn_error $? "cannot create directory $as_dir"
- 
--fi
- 
--fi
++
++
 +} # as_fn_mkdir_p
 +# as_fn_append VAR VALUE
 +# ----------------------
@@ -576,7 +578,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +    eval $1=\$$1\$2
 +  }
 +fi # as_fn_append
- 
++
 +# as_fn_arith ARG...
 +# ------------------
 +# Perform arithmetic evaluation on the ARGs, and store the result in the
@@ -694,6 +696,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -  echo Configuration will now proceed without shell functions.
 -}
 -
+-
 +# Avoid depending upon Character Ranges.
 +as_cr_letters='abcdefghijklmnopqrstuvwxyz'
 +as_cr_LETTERS='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -701,12 +704,11 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +as_cr_digits='0123456789'
 +as_cr_alnum=$as_cr_Letters$as_cr_digits
  
- 
 -  as_lineno_1=$LINENO
 -  as_lineno_2=$LINENO
 -  test "x$as_lineno_1" != "x$as_lineno_2" &&
 -  test "x`expr $as_lineno_1 + 1`" = "x$as_lineno_2" || {
--
+ 
 -  # Create $as_me.lineno as a copy of $as_myself, but with $LINENO
 -  # uniformly replaced by the line number.  The first 'sed' inserts a
 -  # line-number line after each line using $LINENO; the second 'sed'
@@ -736,7 +738,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
    # Don't try to exec as it changes $[0], causing all sort of problems
    # (the dirname of $[0] is not the place where we might find the
-@@ -482,29 +444,18 @@ $as_echo "$as_me: error: cannot create $
+@@ -482,29 +444,18 @@ $as_echo "$as_me: error: cannot create $as_me.lineno; rerun with a POSIX shell"
    exit
  }
  
@@ -771,7 +773,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  rm -f conf$$ conf$$.exe conf$$.file
  if test -d conf$$.dir; then
-@@ -534,7 +485,7 @@ rm -f conf$$ conf$$.exe conf$$.dir/conf$
+@@ -534,7 +485,7 @@ rm -f conf$$ conf$$.exe conf$$.dir/conf$$.file conf$$.file
  rmdir conf$$.dir 2>/dev/null
  
  if mkdir -p . 2>/dev/null; then
@@ -814,7 +816,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  # Whether a write failure occurred
  at_write_fail=0
  
-@@ -618,42 +576,46 @@ esac
+@@ -618,6 +576,8 @@ esac
  # Whether -C is in effect.
  at_change_dir=false
  
@@ -823,31 +825,8 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  # List of the tested programs.
  at_tested='cpio'
  # List of the all the test groups.
--at_groups_all=' 1 2 3 4 5 6 7 8 9'
-+at_groups_all=' 1 2 3 4 5 6 7 8 9 10 11'
- # As many question marks as there are digits in the last test group number.
- # Used to normalize the test group numbers so that `ls' lists them in
- # numerical order.
--at_format='?'
-+at_format='??'
- # Description of all the test groups.
- at_help_all="1;version.at:19;cpio version;;
- 2;inout.at:19;basic functionality: copyin/copyout;copyin copyout;
- 3;symlink.at:22;symlink;symlink copyout;
--4;interdir.at:24;interdir;interdir copyin copypass;
--5;setstat01.at:17;delayed setstat;setstat setstat01;
--6;setstat02.at:17;delayed setstat (with -depth);setstat debian=458079 setstat02;
--7;setstat03.at:17;delayed setstat (copy-pass);setstat debian=458079 setstat03;
--8;setstat04.at:17;delayed setstat (umask);setstat debian=458079 setstat04;
--9;setstat05.at:17;delayed setstat (umask, copy-pass);setstat debian=458079 setstat05;
-+4;symlink-bad-length.at:23;symlink-bad-length;symlink-long copyout;
-+5;symlink-long.at:23;symlink-long;symlink-long copyout;
-+6;interdir.at:24;interdir;interdir copyin copypass;
-+7;setstat01.at:17;delayed setstat;setstat setstat01;
-+8;setstat02.at:17;delayed setstat (with -depth);setstat debian=458079 setstat02;
-+9;setstat03.at:17;delayed setstat (copy-pass);setstat debian=458079 setstat03;
-+10;setstat04.at:17;delayed setstat (umask);setstat debian=458079 setstat04;
-+11;setstat05.at:17;delayed setstat (umask, copy-pass);setstat debian=458079 setstat05;
+@@ -638,11 +598,11 @@ at_help_all="1;version.at:19;cpio version;;
+ 9;setstat05.at:17;delayed setstat (umask, copy-pass);setstat debian=458079 setstat05;
  "
  
 -# at_func_validate_ranges [NAME...]
@@ -863,11 +842,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  {
    for at_grp
    do
-     eval at_value=\$$at_grp
--    if test $at_value -lt 1 || test $at_value -gt 9; then
-+    if test $at_value -lt 1 || test $at_value -gt 11; then
-       $as_echo "invalid test group: $at_value" >&2
-       exit 1
+@@ -653,7 +613,7 @@ at_func_validate_ranges ()
      fi
      case $at_value in
        0*) # We want to treat leading 0 as decimal, like expr and test, but
@@ -876,7 +851,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	  # With XSI shells, ${at_value#${at_value%%[1-9]*}} avoids the
  	  # expr fork, but it is not worth the effort to determine if the
  	  # shell supports XSI when the user can just avoid leading 0.
-@@ -672,8 +634,8 @@ do
+@@ -672,8 +632,8 @@ do
    fi
  
    case $at_option in
@@ -887,7 +862,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    esac
  
    # Accept the important Cygnus configure options, so we can diagnose typos.
-@@ -695,6 +657,19 @@ do
+@@ -695,6 +655,19 @@ do
  	at_clean=:
  	;;
  
@@ -907,7 +882,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
      --debug | -d )
  	at_debug_p=:
  	;;
-@@ -709,29 +684,31 @@ do
+@@ -709,29 +682,31 @@ do
  	;;
  
      --trace | -x )
@@ -946,7 +921,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	;;
  
      [0-9]-[0-9] | [0-9]-[0-9][0-9] | [0-9]-[0-9][0-9][0-9] | \
-@@ -747,11 +724,11 @@ do
+@@ -747,11 +722,11 @@ do
  	  at_range_end=$at_range_start
  	  at_range_start=$at_tmp
  	fi
@@ -960,7 +935,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	;;
  
      # Directory selection.
-@@ -761,6 +738,25 @@ do
+@@ -761,6 +736,25 @@ do
      --directory=* )
  	at_change_dir=:
  	at_dir=$at_optarg
@@ -986,7 +961,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	;;
  
      # Keywords.
-@@ -791,7 +787,10 @@ do
+@@ -791,7 +785,10 @@ do
  	at_groups_selected=`$as_echo "$at_groups_selected" | sed 's/;.*//' |
  	  tr "$as_nl" ' '
  	`
@@ -998,7 +973,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	;;
  
      *=*)
-@@ -799,14 +798,12 @@ do
+@@ -799,14 +796,12 @@ do
  	# Reject names that are not valid shell variable names.
  	case $at_envvar in
  	  '' | [0-9]* | *[!_$as_cr_alnum]* )
@@ -1015,7 +990,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  	;;
  
       *) $as_echo "$as_me: invalid option: $at_option" >&2
-@@ -817,21 +814,44 @@ $as_echo "$as_me: error: invalid variabl
+@@ -817,21 +812,44 @@ $as_echo "$as_me: error: invalid variable name: $at_envvar" >&2;}
  done
  
  # Verify our last option didn't require an argument
@@ -1065,7 +1040,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  # Help message.
  if $at_help_p; then
    cat <<_ATEOF || at_write_fail=1
-@@ -840,16 +860,17 @@ Usage: $0 [OPTION]... [VARIABLE=VALUE]..
+@@ -840,16 +858,17 @@ Usage: $0 [OPTION]... [VARIABLE=VALUE]... [TESTS]
  Run all the tests, or the selected TESTS, given by numeric ranges, and
  save a detailed log file.  Upon failure, create debugging scripts.
  
@@ -1088,7 +1063,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  _ATEOF
  cat <<_ATEOF || at_write_fail=1
  
-@@ -864,9 +885,14 @@ cat <<_ATEOF || at_write_fail=1
+@@ -864,9 +883,14 @@ cat <<_ATEOF || at_write_fail=1
  Execution tuning:
    -C, --directory=DIR
                   change to directory DIR before starting
@@ -1103,7 +1078,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    -e, --errexit  abort as soon as a test fails; implies --debug
    -v, --verbose  force more detailed output
                   default for debugging scripts
-@@ -877,6 +903,7 @@ _ATEOF
+@@ -877,6 +901,7 @@ _ATEOF
  cat <<_ATEOF || at_write_fail=1
  
  Report bugs to <bug-cpio@gnu.org>.
@@ -1111,7 +1086,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  _ATEOF
    exit $at_write_fail
  fi
-@@ -901,26 +928,45 @@ _ATEOF
+@@ -901,26 +926,45 @@ _ATEOF
    $as_echo "$at_groups$as_nl$at_help_all" |
      awk 'BEGIN { FS = ";" }
  	 NR == 1 {
@@ -1164,7 +1139,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    exit $at_write_fail
  fi
  
-@@ -935,13 +981,8 @@ esac
+@@ -935,13 +979,8 @@ esac
  
  # Take any -C into account.
  if $at_change_dir ; then
@@ -1179,7 +1154,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    at_dir=`pwd`
  fi
  
-@@ -949,9 +990,7 @@ fi
+@@ -949,9 +988,7 @@ fi
  for at_file in atconfig atlocal
  do
    test -r $at_file || continue
@@ -1190,7 +1165,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  done
  
  # Autoconf <=2.59b set at_top_builddir instead of at_top_build_prefix:
-@@ -966,8 +1005,7 @@ if test -n "$at_top_srcdir"; then
+@@ -966,8 +1003,7 @@ if test -n "$at_top_srcdir"; then
    builddir=../..
    for at_dir_var in srcdir top_srcdir top_build_prefix
    do
@@ -1200,7 +1175,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
      case $at_val in
        [\\/$]* | ?:[\\/]* ) at_prefix= ;;
        *) at_prefix=../../ ;;
-@@ -976,9 +1014,9 @@ if test -n "$at_top_srcdir"; then
+@@ -976,9 +1012,9 @@ if test -n "$at_top_srcdir"; then
    done
  fi
  
@@ -1213,7 +1188,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  # This is the set of directories and files used by this script
  # (non-literals are capitalized):
-@@ -1009,12 +1047,14 @@ fi
+@@ -1009,12 +1045,14 @@ fi
  # The directory the whole suite works in.
  # Should be absolute to let the user `cd' at will.
  at_suite_dir=$at_dir/$as_me.dir
@@ -1229,7 +1204,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  if $at_clean; then
    test -d "$at_suite_dir" &&
-@@ -1038,23 +1078,23 @@ for as_dir in $AUTOTEST_PATH $PATH
+@@ -1038,23 +1076,23 @@ for as_dir in $AUTOTEST_PATH $PATH
  do
    IFS=$as_save_IFS
    test -z "$as_dir" && as_dir=.
@@ -1259,7 +1234,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  IFS=$as_save_IFS
  
  
-@@ -1068,7 +1108,7 @@ for as_dir in $at_path
+@@ -1068,7 +1106,7 @@ for as_dir in $at_path
  do
    IFS=$as_save_IFS
    test -z "$as_dir" && as_dir=.
@@ -1268,7 +1243,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  case $as_dir in
    [\\/]* | ?:[\\/]* ) ;;
    * ) as_dir=`(cd "$as_dir" && pwd) 2>/dev/null` ;;
-@@ -1076,15 +1116,18 @@ esac
+@@ -1076,15 +1114,18 @@ esac
  case $PATH_SEPARATOR$at_new_path$PATH_SEPARATOR in
    *$PATH_SEPARATOR$as_dir$PATH_SEPARATOR*) ;;
    $PATH_SEPARATOR$PATH_SEPARATOR) at_new_path=$as_dir ;;
@@ -1282,14 +1257,15 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  PATH=$at_new_path
  export PATH
  
- # Setting up the FDs.
+-# Setting up the FDs.
++# Setting up the FDs.
 +
 +
 +
  # 5 is the log file.  Not to be overwritten if `-d'.
  if $at_debug_p; then
    at_suite_log=/dev/null
-@@ -1094,43 +1137,28 @@ fi
+@@ -1094,43 +1135,28 @@ fi
  exec 5>>"$at_suite_log"
  
  # Banners and logs.
@@ -1345,7 +1321,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    fi
  
    {
-@@ -1163,8 +1191,8 @@ for as_dir in $PATH
+@@ -1163,8 +1189,8 @@ for as_dir in $PATH
  do
    IFS=$as_save_IFS
    test -z "$as_dir" && as_dir=.
@@ -1356,23 +1332,22 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  IFS=$as_save_IFS
  
  }
-@@ -1181,53 +1209,76 @@ IFS=$as_save_IFS
+@@ -1181,53 +1207,76 @@ IFS=$as_save_IFS
  } >&5
  
  
 -## --------------- ##
 -## Shell functions ##
 -## --------------- ##
--
++## ------------------------- ##
++## Autotest shell functions. ##
++## ------------------------- ##
+ 
 -# at_func_banner NUMBER
 -# ---------------------
 -# Output banner NUMBER, provided the testsuite is running multiple groups
 -# and this particular banner has not yet been printed.
 -at_func_banner ()
-+## ------------------------- ##
-+## Autotest shell functions. ##
-+## ------------------------- ##
-+
 +# at_fn_banner NUMBER
 +# -------------------
 +# Output banner NUMBER, provided the testsuite is running multiple groups and
@@ -1392,19 +1367,18 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -# Test if COMMAND includes a newline and, if so, print a message and return
 -# exit code 1
 -at_func_check_newline ()
--{
++# at_fn_check_prepare_notrace REASON LINE
++# ---------------------------------------
++# Perform AT_CHECK preparations for the command at LINE for an untraceable
++# command; REASON is the reason for disabling tracing.
++at_fn_check_prepare_notrace ()
+ {
 -  case "$1" in
 - *'
 -'*) echo 'Not enabling shell tracing (command contains an embedded newline)'
 -    return 1 ;;
 - *) return 0 ;;
 -  esac
-+# at_fn_check_prepare_notrace REASON LINE
-+# ---------------------------------------
-+# Perform AT_CHECK preparations for the command at LINE for an untraceable
-+# command; REASON is the reason for disabling tracing.
-+at_fn_check_prepare_notrace ()
-+{
 +  $at_trace_echo "Not enabling shell tracing (command contains $1)"
 +  $as_echo "$2" >"$at_check_line_file"
 +  at_check_trace=: at_check_filter=:
@@ -1431,7 +1405,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +# Decide if COMMAND at LINE is traceable at runtime, and call the appropriate
 +# preparation function.
 +at_fn_check_prepare_dynamic ()
- {
++{
 +  case $1 in
 +    *$as_nl*)
 +      at_fn_check_prepare_notrace 'an embedded newline' "$2" ;;
@@ -1445,7 +1419,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +# Remove the lines in the file "$at_stderr" generated by "set -x" and print
 +# them to stderr.
 +at_fn_filter_trace ()
-+{
+ {
 +  mv "$at_stderr" "$at_stder1"
    grep '^ *+' "$at_stder1" >&2
    grep -v '^ *+' "$at_stder1" >"$at_stderr"
@@ -1463,7 +1437,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  {
    for file
      do $as_echo "$file:"; sed 's/^/> /' "$file"; done
-@@ -1235,56 +1286,62 @@ at_func_log_failure ()
+@@ -1235,56 +1284,62 @@ at_func_log_failure ()
    exit 1
  }
  
@@ -1548,7 +1522,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  {
    {
      echo "#! /bin/sh" &&
-@@ -1296,34 +1353,13 @@ at_func_create_debugging_script ()
+@@ -1296,34 +1351,13 @@ at_func_create_debugging_script ()
    chmod +x "$at_group_dir/run"
  }
  
@@ -1588,7 +1562,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    echo
  } >&5
  
-@@ -1331,34 +1367,35 @@ _ASBOX
+@@ -1331,34 +1365,35 @@ _ASBOX
  for at_program in : $at_tested
  do
    test "$at_program" = : && continue
@@ -1637,7 +1611,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  } >&5
  
  at_start_date=`date`
-@@ -1366,11 +1403,8 @@ at_start_time=`date +%s 2>/dev/null`
+@@ -1366,11 +1401,8 @@ at_start_time=`date +%s 2>/dev/null`
  $as_echo "$as_me: starting at: $at_start_date" >&5
  
  # Create the master directory if it doesn't already exist.
@@ -1651,7 +1625,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  # Can we diff with `/dev/null'?  DU 5.0 refuses.
  if diff /dev/null /dev/null >/dev/null 2>&1; then
-@@ -1404,111 +1438,87 @@ BEGIN { FS="" }
+@@ -1404,28 +1436,40 @@ BEGIN { FS="" }
    if (test == "'"$at_group"'") exit
  }' "$at_myself" > "$at_suite_dir/at-source-lines" &&
  . "$at_suite_dir/at-source-lines" ||
@@ -1702,45 +1676,28 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  {
    # The directory for additional per-group helper files.
    at_job_dir=$at_helper_dir/$at_group
--  # The file containing the location of the last AT_CHECK.
--  at_check_line_file=$at_job_dir/check-line
--  # The file containing the exit status of the last command.
--  at_status_file=$at_job_dir/status
--  # The files containing the output of the tested commands.
--  at_stdout=$at_job_dir/stdout
--  at_stder1=$at_job_dir/stder1
--  at_stderr=$at_job_dir/stderr
--  # The file containing the code for a test group.
--  at_test_source=$at_job_dir/test-source
--  # The file containing dates.
--  at_times_file=$at_job_dir/times
--
--  # Be sure to come back to the top test directory.
--  cd "$at_suite_dir"
--
--  # Clearly separate the test groups when verbose.
--  $at_first || $at_verbose echo
--
--  at_group_normalized=$at_group
--
--  eval 'while :; do
--    case $at_group_normalized in #(
--    '"$at_format"'*) break;;
--    esac
--    at_group_normalized=0$at_group_normalized
--  done'
--
--
--  # Create a fresh directory for the next test group, and enter.
--  at_group_dir=$at_suite_dir/$at_group_normalized
--  at_group_log=$at_group_dir/$as_me.log
--  if test -d "$at_group_dir"; then
+@@ -1459,56 +1503,20 @@ at_func_group_prepare ()
+ 
+ 
+   # Create a fresh directory for the next test group, and enter.
++  # If one already exists, the user may have invoked ./run from
++  # within that directory; we remove the contents, but not the
++  # directory itself, so that we aren't pulling the rug out from
++  # under the shell's notion of the current directory.
+   at_group_dir=$at_suite_dir/$at_group_normalized
+   at_group_log=$at_group_dir/$as_me.log
+   if test -d "$at_group_dir"; then
 -    find "$at_group_dir" -type d ! -perm -700 -exec chmod u+rwx \{\} \;
 -    rm -fr "$at_group_dir" ||
 -    { $as_echo "$as_me:$LINENO: WARNING: test directory for $at_group_normalized could not be cleaned." >&5
 -$as_echo "$as_me: WARNING: test directory for $at_group_normalized could not be cleaned." >&2;}
 -  fi
--  # Be tolerant if the above `rm' was not able to remove the directory.
++  find "$at_group_dir" -type d ! -perm -700 -exec chmod u+rwx {} \;
++  rm -fr "$at_group_dir"/* "$at_group_dir"/.[!.] "$at_group_dir"/.??*
++fi ||
++    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: test directory for $at_group_normalized could not be cleaned" >&5
++$as_echo "$as_me: WARNING: test directory for $at_group_normalized could not be cleaned" >&2;}
+   # Be tolerant if the above `rm' was not able to remove the directory.
 -  { as_dir="$at_group_dir"
 -  case $as_dir in #(
 -  -*) as_dir=./$as_dir;;
@@ -1782,54 +1739,11 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -  } || test -d "$as_dir" || { { $as_echo "$as_me:$LINENO: error: cannot create directory $as_dir" >&5
 -$as_echo "$as_me: error: cannot create directory $as_dir" >&2;}
 -   { (exit 1); exit 1; }; }; }
-+  # The file containing the location of the last AT_CHECK.
-+  at_check_line_file=$at_job_dir/check-line
-+  # The file containing the exit status of the last command.
-+  at_status_file=$at_job_dir/status
-+  # The files containing the output of the tested commands.
-+  at_stdout=$at_job_dir/stdout
-+  at_stder1=$at_job_dir/stder1
-+  at_stderr=$at_job_dir/stderr
-+  # The file containing the code for a test group.
-+  at_test_source=$at_job_dir/test-source
-+  # The file containing dates.
-+  at_times_file=$at_job_dir/times
-+
-+  # Be sure to come back to the top test directory.
-+  cd "$at_suite_dir"
-+
-+  # Clearly separate the test groups when verbose.
-+  $at_first || $at_verbose echo
-+
-+  at_group_normalized=$at_group
-+
-+  eval 'while :; do
-+    case $at_group_normalized in #(
-+    '"$at_format"'*) break;;
-+    esac
-+    at_group_normalized=0$at_group_normalized
-+  done'
-+
-+
-+  # Create a fresh directory for the next test group, and enter.
-+  # If one already exists, the user may have invoked ./run from
-+  # within that directory; we remove the contents, but not the
-+  # directory itself, so that we aren't pulling the rug out from
-+  # under the shell's notion of the current directory.
-+  at_group_dir=$at_suite_dir/$at_group_normalized
-+  at_group_log=$at_group_dir/$as_me.log
-+  if test -d "$at_group_dir"; then
-+  find "$at_group_dir" -type d ! -perm -700 -exec chmod u+rwx {} \;
-+  rm -fr "$at_group_dir"/* "$at_group_dir"/.[!.] "$at_group_dir"/.??*
-+fi ||
-+    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: test directory for $at_group_normalized could not be cleaned" >&5
-+$as_echo "$as_me: WARNING: test directory for $at_group_normalized could not be cleaned" >&2;}
-+  # Be tolerant if the above `rm' was not able to remove the directory.
 +  as_dir="$at_group_dir"; as_fn_mkdir_p
  
    echo 0 > "$at_status_file"
  
-@@ -1521,9 +1531,29 @@ $as_echo "$as_me: error: cannot create d
+@@ -1521,9 +1529,29 @@ $as_echo "$as_me: error: cannot create directory $as_dir" >&2;}
    fi
  }
  
@@ -1862,7 +1776,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  {
    # Be sure to come back to the suite directory, in particular
    # since below we might `rm' the group directory we are in currently.
-@@ -1536,6 +1566,7 @@ at_func_group_postprocess ()
+@@ -1536,6 +1564,7 @@ at_func_group_postprocess ()
        report this failure to <bug-cpio@gnu.org>.
  _ATEOF
      $as_echo "$at_setup_line" >"$at_check_line_file"
@@ -1870,7 +1784,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    fi
    $at_verbose $as_echo_n "$at_group. $at_setup_line: "
    $as_echo_n "$at_group. $at_setup_line: " >> "$at_group_log"
-@@ -1544,31 +1575,41 @@ _ATEOF
+@@ -1544,31 +1573,41 @@ _ATEOF
  	at_msg="UNEXPECTED PASS"
  	at_res=xpass
  	at_errexit=$at_errexit_p
@@ -1919,7 +1833,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    at_log_msg="$at_group. $at_desc ($at_setup_line): $at_msg"
    case $at_status in
      0|77)
-@@ -1585,7 +1626,7 @@ _ATEOF
+@@ -1585,7 +1624,7 @@ _ATEOF
  
        # Cleanup the group directory, unless the user wants the files.
        if $at_debug_p; then
@@ -1928,7 +1842,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
        else
  	if test -d "$at_group_dir"; then
  	  find "$at_group_dir" -type d ! -perm -700 -exec chmod u+rwx \{\} \;
-@@ -1602,7 +1643,7 @@ _ATEOF
+@@ -1602,7 +1641,7 @@ _ATEOF
  
        # Upon failure, keep the group directory for autopsy, and create
        # the debugging script.  With -e, do not start any further tests.
@@ -1937,7 +1851,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
        if $at_errexit; then
  	echo stop > "$at_stop_file"
        fi
-@@ -1615,22 +1656,135 @@ _ATEOF
+@@ -1615,22 +1654,135 @@ _ATEOF
  ## Driver loop. ##
  ## ------------ ##
  
@@ -2084,7 +1998,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  # Wrap up the test suite with summary statistics.
  cd "$at_helper_dir"
-@@ -1651,12 +1805,9 @@ set X $at_xfail_list; shift; at_xfail_co
+@@ -1651,12 +1803,9 @@ set X $at_xfail_list; shift; at_xfail_count=$#
  set X $at_fail_list; shift; at_fail_count=$#; at_fail_list=$*
  set X $at_skip_list; shift; at_skip_count=$#
  
@@ -2100,7 +2014,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  # Back to the top directory.
  cd "$at_dir"
-@@ -1668,35 +1819,26 @@ at_stop_time=`date +%s 2>/dev/null`
+@@ -1668,35 +1817,26 @@ at_stop_time=`date +%s 2>/dev/null`
  $as_echo "$as_me: ending at: $at_stop_date" >&5
  case $at_start_time,$at_stop_time in
    [0-9]*,[0-9]*)
@@ -2145,7 +2059,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    echo
  } >&5
  
-@@ -1714,12 +1856,14 @@ if $at_errexit_p && test $at_unexpected_
+@@ -1714,12 +1854,14 @@ if $at_errexit_p && test $at_unexpected_count != 0; then
      at_result="$at_result $at_were run, one failed"
    fi
    at_result="$at_result unexpectedly and inhibited subsequent tests."
@@ -2162,7 +2076,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
      # Some unexpected failures
      0:*:0) at_result="$at_result $at_were run,
-@@ -1765,18 +1909,16 @@ $at_skip_count tests were skipped." ;;
+@@ -1765,18 +1907,16 @@ $at_skip_count tests were skipped." ;;
  esac
  
  if test $at_unexpected_count = 0; then
@@ -2185,7 +2099,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
      # Summary of failed and skipped tests.
      if test $at_fail_count != 0; then
-@@ -1795,11 +1937,9 @@ _ASBOX
+@@ -1795,11 +1935,9 @@ _ASBOX
        echo
      fi
      if test $at_fail_count != 0; then
@@ -2199,7 +2113,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
        echo
        for at_group in $at_fail_list
        do
-@@ -1831,19 +1971,21 @@ _ASBOX
+@@ -1831,19 +1969,21 @@ _ASBOX
  _ASBOX
  
    echo
@@ -2230,7 +2144,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  fi
  
  exit 0
-@@ -1852,36 +1994,28 @@ exit 0
+@@ -1852,36 +1992,28 @@ exit 0
  ## Actual tests. ##
  ## ------------- ##
  #AT_START_1
@@ -2280,7 +2194,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  else
  
  echo '=============================================================='
-@@ -1889,25 +2023,21 @@ echo 'WARNING: Not using the proper vers
+@@ -1889,25 +2021,21 @@ echo 'WARNING: Not using the proper version, *all* checks dubious...'
  echo '=============================================================='
  
  fi
@@ -2313,7 +2227,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    $at_traceon
  
  
-@@ -1924,7 +2054,7 @@ h	45
+@@ -1924,7 +2052,7 @@ h	45
  _ATEOF
  
  
@@ -2322,7 +2236,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  $as_echo "$at_srcdir/inout.at:32:
  while read NAME LENGTH
  do
-@@ -1932,51 +2062,35 @@ do
+@@ -1932,51 +2060,35 @@ do
  	echo \$NAME
  done < filelist |
   cpio --quiet -o > archive"
@@ -2390,7 +2304,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    $at_traceon
  
  
-@@ -1987,7 +2101,7 @@ symlink
+@@ -1987,7 +2099,7 @@ symlink
  _ATEOF
  
  
@@ -2399,7 +2313,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  $as_echo "$at_srcdir/symlink.at:29:
  genfile --file file
  ln -s file symlink || exit 77
-@@ -1999,24 +2113,8 @@ cd dir
+@@ -1999,24 +2111,8 @@ cd dir
  cpio --quiet -i < ../archive
  find . | sort
  "
@@ -2426,7 +2340,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  genfile --file file
  ln -s file symlink || exit 77
  echo Creating the archive
-@@ -2026,11 +2124,11 @@ mkdir dir
+@@ -2026,11 +2122,11 @@ mkdir dir
  cd dir
  cpio --quiet -i < ../archive
  find . | sort
@@ -2443,7 +2357,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  echo >>"$at_stdout"; $as_echo "Creating the archive
  Extracting the archive
  .
-@@ -2038,26 +2136,160 @@ Extracting the archive
+@@ -2038,26 +2134,22 @@ Extracting the archive
  ./symlink
  " | \
    $at_diff - "$at_stdout" || at_failed=:
@@ -2468,155 +2382,17 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -at_setup_line='interdir.at:24'
 -at_desc="interdir"
 -$at_quiet $as_echo_n "  4: $at_desc                                       "
-+at_fn_group_banner 4 'symlink-bad-length.at:23' \
-+  "symlink-bad-length" "                             "
-+at_xfail=no
-+(
-+  $as_echo "4. $at_setup_line: testing $at_desc ..."
-+  $at_traceon
-+
-+
-+
-+cat >ARCHIVE.base64 <<'_ATEOF'
-+x3EjAIBAtIEtJy8nAQAAAHRUYW0FAAAADQBGSUxFAABzb21lIGNvbnRlbnQKAMdxIwBgQ/+hLScv
-+JwEAAAB0VEhuBQD/////TElOSwAARklMRcdxAAAAAAAAAAAAAAEAAAAAAAAACwAAAAAAVFJBSUxF
-+UiEhIQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
-+_ATEOF
-+
-+
-+# The exact error message and exit status depend on the host architecture,
-+# therefore strderr is filtered out and error code is not checked.
-+
-+# So far the only case when cpio would exit with code 0 is when it skips
-+# several bytes and encounters a valid record header.  Perhaps it should
-+# exit with code 2 (non-critical error), if at least one byte was skipped,
-+# but that could hurt backward compatibility.
-+
-+{ set +x
-+$as_echo "$at_srcdir/symlink-bad-length.at:46:
-+base64 -d ARCHIVE.base64 > ARCHIVE || exit 77
-+TZ=UTC cpio -ntv < ARCHIVE 2>stderr
-+cat stderr | grep -v \\
-+    -e 'stored filename length is out of range' \\
-+    -e 'premature end of file' \\
-+    -e 'archive header has reverse byte-order' \\
-+    -e 'memory exhausted' \\
-+    -e 'skipped [0-9][0-9]* bytes of junk' \\
-+    -e '[0-9][0-9]* block' \\
-+    >&2
-+echo >&2 STDERR
-+"
-+at_fn_check_prepare_notrace 'an embedded newline' "symlink-bad-length.at:46"
-+( $at_check_trace;
-+base64 -d ARCHIVE.base64 > ARCHIVE || exit 77
-+TZ=UTC cpio -ntv < ARCHIVE 2>stderr
-+cat stderr | grep -v \
-+    -e 'stored filename length is out of range' \
-+    -e 'premature end of file' \
-+    -e 'archive header has reverse byte-order' \
-+    -e 'memory exhausted' \
-+    -e 'skipped [0-9][0-9]* bytes of junk' \
-+    -e '[0-9][0-9]* block' \
-+    >&2
-+echo >&2 STDERR
-+
-+) >>"$at_stdout" 2>>"$at_stderr"
-+at_status=$? at_failed=false
-+$at_check_filter
-+echo >>"$at_stderr"; $as_echo "STDERR
-+" | \
-+  $at_diff - "$at_stderr" || at_failed=:
-+echo >>"$at_stdout"; $as_echo "-rw-rw-r--   1 10029    10031          13 Nov 25 11:52 FILE
-+" | \
-+  $at_diff - "$at_stdout" || at_failed=:
-+at_fn_check_status 0 $at_status "$at_srcdir/symlink-bad-length.at:46"
-+$at_failed && at_fn_log_failure
-+$at_traceon; }
-+
-+
-+  set +x
-+  $at_times_p && times >"$at_times_file"
-+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
-+read at_status <"$at_status_file"
-+#AT_STOP_4
-+#AT_START_5
-+at_fn_group_banner 5 'symlink-long.at:23' \
-+  "symlink-long" "                                   "
-+at_xfail=no
-+(
-+  $as_echo "5. $at_setup_line: testing $at_desc ..."
-+  $at_traceon
-+
-+
-+
-+{ set +x
-+$as_echo "$at_srcdir/symlink-long.at:26:
-+
-+# len(dirname) > READBUFSIZE
-+dirname=
-+for i in {1..52}; do
-+    dirname=\"xxxxxxxxx/\$dirname\"
-+    mkdir \"\$dirname\"
-+done
-+ln -s \"\$dirname\" x || exit 77
-+
-+echo x | cpio -o > ar
-+list=\`cpio -tv < ar | sed 's|.*-> ||'\`
-+test \"\$list\" = \"\$dirname\" && echo success || echo fail
-+"
-+at_fn_check_prepare_notrace 'a `...` command substitution' "symlink-long.at:26"
-+( $at_check_trace;
-+
-+# len(dirname) > READBUFSIZE
-+dirname=
-+for i in {1..52}; do
-+    dirname="xxxxxxxxx/$dirname"
-+    mkdir "$dirname"
-+done
-+ln -s "$dirname" x || exit 77
-+
-+echo x | cpio -o > ar
-+list=`cpio -tv < ar | sed 's|.*-> ||'`
-+test "$list" = "$dirname" && echo success || echo fail
-+
-+) >>"$at_stdout" 2>>"$at_stderr"
-+at_status=$? at_failed=false
-+$at_check_filter
-+echo >>"$at_stderr"; $as_echo "2 blocks
-+2 blocks
-+" | \
-+  $at_diff - "$at_stderr" || at_failed=:
-+echo >>"$at_stdout"; $as_echo "success
-+" | \
-+  $at_diff - "$at_stdout" || at_failed=:
-+at_fn_check_status 0 $at_status "$at_srcdir/symlink-long.at:26"
-+$at_failed && at_fn_log_failure
-+$at_traceon; }
-+
-+
-+  set +x
-+  $at_times_p && times >"$at_times_file"
-+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
-+read at_status <"$at_status_file"
-+#AT_STOP_5
-+#AT_START_6
-+at_fn_group_banner 6 'interdir.at:24' \
++at_fn_group_banner 4 'interdir.at:24' \
 +  "interdir" "                                       "
  at_xfail=no
 -echo "#                             -*- compilation -*-" >> "$at_group_log"
  (
 -  $as_echo "4. interdir.at:24: testing ..."
-+  $as_echo "6. $at_setup_line: testing $at_desc ..."
++  $as_echo "4. $at_setup_line: testing $at_desc ..."
    $at_traceon
  
  
-@@ -2068,7 +2300,7 @@ dir/file
+@@ -2068,7 +2160,7 @@ dir/file
  _ATEOF
  
  
@@ -2625,7 +2401,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  $as_echo "$at_srcdir/interdir.at:31:
  umask 022
  mkdir dir
-@@ -2083,27 +2315,8 @@ genfile --stat=name,mode.777 en/to/tre
+@@ -2083,27 +2175,8 @@ genfile --stat=name,mode.777 en/to/tre
  genfile --stat=name,mode.777 en/to/tre/dir
  genfile --stat=name,mode.777 en/to/tre/dir/file
  "
@@ -2655,7 +2431,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  umask 022
  mkdir dir
  chmod 700 dir
-@@ -2116,11 +2329,11 @@ genfile --stat=name,mode.777 en/to
+@@ -2116,11 +2189,11 @@ genfile --stat=name,mode.777 en/to
  genfile --stat=name,mode.777 en/to/tre
  genfile --stat=name,mode.777 en/to/tre/dir
  genfile --stat=name,mode.777 en/to/tre/dir/file
@@ -2672,7 +2448,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  echo >>"$at_stdout"; $as_echo "Copying the hierarchy
  en/to/tre/dir
  en/to/tre/dir/file
-@@ -2133,26 +2346,22 @@ en/to/tre/dir 700
+@@ -2133,26 +2206,22 @@ en/to/tre/dir 700
  en/to/tre/dir/file 644
  " | \
    $at_diff - "$at_stdout" || at_failed=:
@@ -2689,27 +2465,25 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    $at_times_p && times >"$at_times_file"
 -) 5>&1 2>&1 | eval $at_tee_pipe
 -at_status=`cat "$at_status_file"`
--#AT_STOP_4
--#AT_START_5
++) 5>&1 2>&1 7>&- | eval $at_tee_pipe
++read at_status <"$at_status_file"
+ #AT_STOP_4
+ #AT_START_5
 -# 5. setstat01.at:17: delayed setstat
 -at_setup_line='setstat01.at:17'
 -at_desc="delayed setstat"
 -$at_quiet $as_echo_n "  5: $at_desc                                "
-+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
-+read at_status <"$at_status_file"
-+#AT_STOP_6
-+#AT_START_7
-+at_fn_group_banner 7 'setstat01.at:17' \
++at_fn_group_banner 5 'setstat01.at:17' \
 +  "delayed setstat" "                                "
  at_xfail=no
 -echo "#                             -*- compilation -*-" >> "$at_group_log"
  (
 -  $as_echo "5. setstat01.at:17: testing ..."
-+  $as_echo "7. $at_setup_line: testing $at_desc ..."
++  $as_echo "5. $at_setup_line: testing $at_desc ..."
    $at_traceon
  
  
-@@ -2162,7 +2371,7 @@ echo "#                             -*-
+@@ -2162,7 +2231,7 @@ echo "#                             -*- compilation -*-" >> "$at_group_log"
  # permissions did not allow writing to it, cpio was unable to populate
  # the directory.
  
@@ -2718,7 +2492,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  $as_echo "$at_srcdir/setstat01.at:25:
  mkdir dir
  echo \"test file\" > dir/file
-@@ -2174,11 +2383,8 @@ mv dir old
+@@ -2174,11 +2243,8 @@ mv dir old
  cpio -i --quiet < archive
  genfile --stat=mode.777 dir
  "
@@ -2732,7 +2506,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  mkdir dir
  echo "test file" > dir/file
  chmod 500 dir
-@@ -2188,47 +2394,30 @@ mv dir old
+@@ -2188,47 +2254,30 @@ mv dir old
  
  cpio -i --quiet < archive
  genfile --stat=mode.777 dir
@@ -2743,10 +2517,10 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -mkdir dir
 -echo "test file" > dir/file
 -chmod 500 dir
- 
+-
 -find dir | cpio -o --quiet > archive
 -mv dir old
--
+ 
 -cpio -i --quiet < archive
 -genfile --stat=mode.777 dir
 - ) >"$at_stdout" 2>"$at_stderr"
@@ -2774,27 +2548,25 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    $at_times_p && times >"$at_times_file"
 -) 5>&1 2>&1 | eval $at_tee_pipe
 -at_status=`cat "$at_status_file"`
--#AT_STOP_5
--#AT_START_6
++) 5>&1 2>&1 7>&- | eval $at_tee_pipe
++read at_status <"$at_status_file"
+ #AT_STOP_5
+ #AT_START_6
 -# 6. setstat02.at:17: delayed setstat (with -depth)
 -at_setup_line='setstat02.at:17'
 -at_desc="delayed setstat (with -depth)"
 -$at_quiet $as_echo_n "  6: $at_desc                  "
-+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
-+read at_status <"$at_status_file"
-+#AT_STOP_7
-+#AT_START_8
-+at_fn_group_banner 8 'setstat02.at:17' \
++at_fn_group_banner 6 'setstat02.at:17' \
 +  "delayed setstat (with -depth)" "                  "
  at_xfail=no
 -echo "#                             -*- compilation -*-" >> "$at_group_log"
  (
 -  $as_echo "6. setstat02.at:17: testing ..."
-+  $as_echo "8. $at_setup_line: testing $at_desc ..."
++  $as_echo "6. $at_setup_line: testing $at_desc ..."
    $at_traceon
  
  
-@@ -2243,7 +2432,7 @@ echo "#                             -*-
+@@ -2243,7 +2292,7 @@ echo "#                             -*- compilation -*-" >> "$at_group_log"
  #
  # See also: setstat03, setstat04, setstat05
  
@@ -2803,7 +2575,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  $as_echo "$at_srcdir/setstat02.at:30:
  mkdir dir
  echo \"test file\" > dir/file
-@@ -2255,11 +2444,8 @@ mv dir old
+@@ -2255,11 +2304,8 @@ mv dir old
  cpio -id --quiet < archive
  genfile --stat=mode.777 dir
  "
@@ -2817,7 +2589,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  mkdir dir
  echo "test file" > dir/file
  chmod 500 dir
-@@ -2269,47 +2455,30 @@ mv dir old
+@@ -2269,47 +2315,30 @@ mv dir old
  
  cpio -id --quiet < archive
  genfile --stat=mode.777 dir
@@ -2828,10 +2600,10 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 -mkdir dir
 -echo "test file" > dir/file
 -chmod 500 dir
- 
+-
 -find dir -depth | cpio -o --quiet > archive
 -mv dir old
--
+ 
 -cpio -id --quiet < archive
 -genfile --stat=mode.777 dir
 - ) >"$at_stdout" 2>"$at_stderr"
@@ -2859,27 +2631,25 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    $at_times_p && times >"$at_times_file"
 -) 5>&1 2>&1 | eval $at_tee_pipe
 -at_status=`cat "$at_status_file"`
--#AT_STOP_6
--#AT_START_7
++) 5>&1 2>&1 7>&- | eval $at_tee_pipe
++read at_status <"$at_status_file"
+ #AT_STOP_6
+ #AT_START_7
 -# 7. setstat03.at:17: delayed setstat (copy-pass)
 -at_setup_line='setstat03.at:17'
 -at_desc="delayed setstat (copy-pass)"
 -$at_quiet $as_echo_n "  7: $at_desc                    "
-+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
-+read at_status <"$at_status_file"
-+#AT_STOP_8
-+#AT_START_9
-+at_fn_group_banner 9 'setstat03.at:17' \
++at_fn_group_banner 7 'setstat03.at:17' \
 +  "delayed setstat (copy-pass)" "                    "
  at_xfail=no
 -echo "#                             -*- compilation -*-" >> "$at_group_log"
  (
 -  $as_echo "7. setstat03.at:17: testing ..."
-+  $as_echo "9. $at_setup_line: testing $at_desc ..."
++  $as_echo "7. $at_setup_line: testing $at_desc ..."
    $at_traceon
  
  
-@@ -2325,7 +2494,7 @@ echo "#                             -*-
+@@ -2325,7 +2354,7 @@ echo "#                             -*- compilation -*-" >> "$at_group_log"
  #
  # See also: setstat02, setstat04. setstat05
  
@@ -2888,7 +2658,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  $as_echo "$at_srcdir/setstat03.at:31:
  mkdir dir
  echo \"test file\" > dir/file
-@@ -2335,11 +2504,8 @@ mkdir newdir
+@@ -2335,11 +2364,8 @@ mkdir newdir
  find dir -depth | cpio -pmaud --quiet newdir
  genfile --stat=mode.777 newdir/dir
  "
@@ -2902,7 +2672,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  mkdir dir
  echo "test file" > dir/file
  chmod 500 dir
-@@ -2347,45 +2513,30 @@ mkdir newdir
+@@ -2347,45 +2373,30 @@ mkdir newdir
  
  find dir -depth | cpio -pmaud --quiet newdir
  genfile --stat=mode.777 newdir/dir
@@ -2942,27 +2712,25 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    $at_times_p && times >"$at_times_file"
 -) 5>&1 2>&1 | eval $at_tee_pipe
 -at_status=`cat "$at_status_file"`
--#AT_STOP_7
--#AT_START_8
++) 5>&1 2>&1 7>&- | eval $at_tee_pipe
++read at_status <"$at_status_file"
+ #AT_STOP_7
+ #AT_START_8
 -# 8. setstat04.at:17: delayed setstat (umask)
 -at_setup_line='setstat04.at:17'
 -at_desc="delayed setstat (umask)"
 -$at_quiet $as_echo_n "  8: $at_desc                        "
-+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
-+read at_status <"$at_status_file"
-+#AT_STOP_9
-+#AT_START_10
-+at_fn_group_banner 10 'setstat04.at:17' \
++at_fn_group_banner 8 'setstat04.at:17' \
 +  "delayed setstat (umask)" "                        "
  at_xfail=no
 -echo "#                             -*- compilation -*-" >> "$at_group_log"
  (
 -  $as_echo "8. setstat04.at:17: testing ..."
-+  $as_echo "10. $at_setup_line: testing $at_desc ..."
++  $as_echo "8. $at_setup_line: testing $at_desc ..."
    $at_traceon
  
  
-@@ -2402,7 +2553,7 @@ echo "#                             -*-
+@@ -2402,7 +2413,7 @@ echo "#                             -*- compilation -*-" >> "$at_group_log"
  #
  # See also: setstat02, setstat03, setstat05
  
@@ -2971,7 +2739,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  $as_echo "$at_srcdir/setstat04.at:32:
  umask 022
  mkdir dir
-@@ -2415,11 +2566,8 @@ umask 077
+@@ -2415,11 +2426,8 @@ umask 077
  cpio -id --quiet < archive
  genfile --stat=mode.777 dir
  "
@@ -2985,7 +2753,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  umask 022
  mkdir dir
  echo "test file" > dir/file
-@@ -2430,48 +2578,30 @@ mv dir old
+@@ -2430,48 +2438,30 @@ mv dir old
  umask 077
  cpio -id --quiet < archive
  genfile --stat=mode.777 dir
@@ -3028,27 +2796,25 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    $at_times_p && times >"$at_times_file"
 -) 5>&1 2>&1 | eval $at_tee_pipe
 -at_status=`cat "$at_status_file"`
--#AT_STOP_8
--#AT_START_9
++) 5>&1 2>&1 7>&- | eval $at_tee_pipe
++read at_status <"$at_status_file"
+ #AT_STOP_8
+ #AT_START_9
 -# 9. setstat05.at:17: delayed setstat (umask, copy-pass)
 -at_setup_line='setstat05.at:17'
 -at_desc="delayed setstat (umask, copy-pass)"
 -$at_quiet $as_echo_n "  9: $at_desc             "
-+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
-+read at_status <"$at_status_file"
-+#AT_STOP_10
-+#AT_START_11
-+at_fn_group_banner 11 'setstat05.at:17' \
++at_fn_group_banner 9 'setstat05.at:17' \
 +  "delayed setstat (umask, copy-pass)" "             "
  at_xfail=no
 -echo "#                             -*- compilation -*-" >> "$at_group_log"
  (
 -  $as_echo "9. setstat05.at:17: testing ..."
-+  $as_echo "11. $at_setup_line: testing $at_desc ..."
++  $as_echo "9. $at_setup_line: testing $at_desc ..."
    $at_traceon
  
  
-@@ -2488,7 +2618,7 @@ echo "#                             -*-
+@@ -2488,7 +2478,7 @@ echo "#                             -*- compilation -*-" >> "$at_group_log"
  #
  # See also: setstat02, setstat03
  
@@ -3057,7 +2823,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  $as_echo "$at_srcdir/setstat05.at:32:
  umask 022
  mkdir dir
-@@ -2498,22 +2628,8 @@ umask 077
+@@ -2498,22 +2488,8 @@ umask 077
  find dir -depth | cpio -pmaud --quiet newdir
  genfile --stat=mode.777 newdir/dir
  "
@@ -3082,7 +2848,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  umask 022
  mkdir dir
  echo "test file" > dir/file
-@@ -2521,22 +2637,21 @@ mkdir newdir
+@@ -2521,22 +2497,21 @@ mkdir newdir
  umask 077
  find dir -depth | cpio -pmaud --quiet newdir
  genfile --stat=mode.777 newdir/dir
@@ -3112,7 +2878,6 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
    $at_times_p && times >"$at_times_file"
 -) 5>&1 2>&1 | eval $at_tee_pipe
 -at_status=`cat "$at_status_file"`
--#AT_STOP_9
 +) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 +read at_status <"$at_status_file"
-+#AT_STOP_11
+ #AT_STOP_9
