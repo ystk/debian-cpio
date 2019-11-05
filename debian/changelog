@@ -1,3 +1,10 @@
+cpio (2.11+dfsg-4.1+deb8u2) jessie-security; urgency=high
+
+  * Non-maintainer upload by the long term security team.
+  * Correction for CVE-2019-14866 (closes: #941412).
+
+ -- Ola Lundqvist <ola@inguza.com>  Tue, 29 Oct 2019 21:04:22 +0000
+
 cpio (2.11+dfsg-4.1+deb8u1) jessie-security; urgency=high
 
   * Non-maintainer upload by the Security Team.
