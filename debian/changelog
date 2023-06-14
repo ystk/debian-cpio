@@ -1,3 +1,18 @@
+cpio (2.11+dfsg-4.1+deb8u4) jessie-security; urgency=medium
+
+  * Non-maintainer upload by the ELTS Security Team.
+  * debian/rules: Fix a race condition that could result in
+    a (rare) build failure.
+
+ -- Adrian Bunk <bunk@debian.org>  Mon, 05 Jun 2023 00:54:23 +0300
+
+cpio (2.11+dfsg-4.1+deb8u3) jessie-security; urgency=medium
+
+  * Non-maintainer upload by the ELTS Security Team.
+  * CVE-2021-38185: Arbitrary code via crafted pattern file.
+
+ -- Adrian Bunk <bunk@debian.org>  Sun, 04 Jun 2023 23:31:46 +0300
+
 cpio (2.11+dfsg-4.1+deb8u2) jessie-security; urgency=high
 
   * Non-maintainer upload by the long term security team.

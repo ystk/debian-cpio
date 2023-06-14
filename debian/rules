@@ -47,7 +47,8 @@ build-indep: build
 build:	obj/Makefile
 	$(checkdir)
 	$(MAKE) -C obj
-	touch tests/testsuite.at tests/testsuite tests/package.m4
+	touch tests/testsuite.at tests/package.m4
+	touch tests/testsuite
 ifeq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
 	$(MAKE) -C obj check
 endif

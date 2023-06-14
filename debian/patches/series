@@ -19,3 +19,7 @@ f6a8a2cb.patch
 CVE-2015-1197.patch
 CVE-2016-2037.patch
 CVE-2019-14866.patch
+0001-Various-fixes.patch
+0002-Rewrite-dynamic-string-support.patch
+0003-Fix-previous-commit.patch
+0004-Fix-dynamic-string-reallocations.patch

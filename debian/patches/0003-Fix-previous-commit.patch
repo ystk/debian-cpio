@@ -1,0 +1,36 @@
+From e123515cfa69dfecc38b0ed20b76fa4578a0f3ad Mon Sep 17 00:00:00 2001
+From: Sergey Poznyakoff <gray@gnu.org>
+Date: Wed, 11 Aug 2021 18:10:38 +0300
+Subject: Fix previous commit
+
+* src/dstring.c (ds_reset,ds_concat): Don't call ds_resize in a
+loop.
+---
+ src/dstring.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/dstring.c b/src/dstring.c
+index 816d38a..a799906 100644
+--- a/src/dstring.c
++++ b/src/dstring.c
+@@ -64,7 +64,7 @@ void
+ ds_reset (dynamic_string *s, size_t len)
+ {
+   while (len > s->ds_size)
+-    ds_resize (s);
++    s->ds_string = x2nrealloc (s->ds_string, &s->ds_size, 1);
+   s->ds_idx = len;
+ }
+ 
+@@ -116,7 +116,7 @@ ds_concat (dynamic_string *s, char const *str)
+ {
+   size_t len = strlen (str);
+   while (len + 1 > s->ds_size)
+-    ds_resize (s);
++    s->ds_string = x2nrealloc (s->ds_string, &s->ds_size, 1);
+   memcpy (s->ds_string + s->ds_idx, str, len);
+   s->ds_idx += len;
+   s->ds_string[s->ds_idx] = 0;
+-- 
+2.30.2
+

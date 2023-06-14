@@ -1,0 +1,68 @@
+From 391d3165d634f848ed024d952d3fa8e9da2f7b44 Mon Sep 17 00:00:00 2001
+From: Sergey Poznyakoff <gray@gnu.org>
+Date: Mon, 4 Nov 2019 17:51:52 +0200
+Subject: Various fixes
+
+* src/copyin.c (try_existing_file): Change type of the last argument.
+(copyin_file): Initialize existing_dir.
+* src/dstring.c: Include xalloc.h
+* src/filemode.c (mode_string): mode is unsigned int.
+---
+ src/copyin.c   | 4 ++--
+ src/dstring.c  | 4 +---
+ src/filemode.c | 2 +-
+ 3 files changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/src/copyin.c b/src/copyin.c
+index ef45894..45d228b 100644
+--- a/src/copyin.c
++++ b/src/copyin.c
+@@ -186,7 +186,7 @@ list_file(struct cpio_file_stat* file_hdr, int in_file_des)
+ 
+ static int
+ try_existing_file (struct cpio_file_stat* file_hdr, int in_file_des,
+-		   int *existing_dir)
++		   bool *existing_dir)
+ {
+   struct stat file_stat;
+ 
+@@ -690,7 +690,7 @@ copyin_link(struct cpio_file_stat *file_hdr, int in_file_des)
+ static void
+ copyin_file (struct cpio_file_stat *file_hdr, int in_file_des)
+ {
+-  int existing_dir;
++  bool existing_dir = false;
+ 
+   if (!to_stdout_option
+       && try_existing_file (file_hdr, in_file_des, &existing_dir) < 0)
+diff --git a/src/dstring.c b/src/dstring.c
+index 6ff75bf..10fa37c 100644
+--- a/src/dstring.c
++++ b/src/dstring.c
+@@ -28,9 +28,7 @@
+ #include <strings.h>
+ #endif
+ #include "dstring.h"
+-
+-char *xmalloc (unsigned n);
+-char *xrealloc (char *p, unsigned n);
++#include <xalloc.h>
+ 
+ /* Initialiaze dynamic string STRING with space for SIZE characters.  */
+ 
+diff --git a/src/filemode.c b/src/filemode.c
+index 9c816ea..6b2d49c 100644
+--- a/src/filemode.c
++++ b/src/filemode.c
+@@ -191,7 +191,7 @@ setst (unsigned short bits, char *chars)
+    `struct stat' is given as an argument.  */
+ 
+ void
+-mode_string (unsigned short mode, char *str)
++mode_string (unsigned int mode, char *str)
+ {
+   str[0] = ftypelet ((long) mode);
+   rwx ((mode & 0700) << 0, &str[1]);
+-- 
+2.30.2
+
